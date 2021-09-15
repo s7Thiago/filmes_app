@@ -1,5 +1,6 @@
 import 'package:filmes_app/modules/splash/splash_module.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_remote_config/firebase_remote_config.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -9,6 +10,8 @@ void main() async {
   // firebase
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
+
+  RemoteConfig.instance.fetchAndActivate();
 
   runApp(const MyApp());
 }

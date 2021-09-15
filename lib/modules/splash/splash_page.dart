@@ -1,3 +1,4 @@
+import 'package:firebase_remote_config/firebase_remote_config.dart';
 import 'package:flutter/material.dart';
 
 class SplashPage extends StatelessWidget {
@@ -9,7 +10,11 @@ class SplashPage extends StatelessWidget {
       appBar: AppBar(
         title: const Text('Splash'),
       ),
-      body: Container(),
+      body: Center(
+        child: Container(
+          child: Text(RemoteConfig.instance.getString('api_token')),
+        ),
+      ),
     );
   }
 }
