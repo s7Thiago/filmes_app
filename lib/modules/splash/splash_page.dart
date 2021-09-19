@@ -1,25 +1,13 @@
+import 'package:filmes_app/modules/splash/splash_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class SplashPage extends StatefulWidget {
-  const SplashPage({Key? key}) : super(key: key);
+class SplashPage extends StatelessWidget {
+  // Delegando a tarefa de instanciar o controller para o Get
+  // O método put disponibiliza a instância através do Get
+  var controller = Get.put(SplashController());
 
-  @override
-  State<SplashPage> createState() => _SplashPageState();
-}
-
-class _SplashPageState extends State<SplashPage> {
-  @override
-  void initState() {
-    super.initState();
-    // Faz algo depois que a tela já foi construída (após o método build rodar)
-    WidgetsBinding.instance?.addPostFrameCallback((timeStamp) {});
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
-  }
+  SplashPage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
