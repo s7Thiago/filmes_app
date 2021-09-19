@@ -5,6 +5,6 @@ class LoginBindings implements Bindings {
   @override
   void dependencies() {
     // Só cria a instância quando necessário
-    Get.lazyPut(() => LoginController());
+    Get.lazyPut(() => LoginController(loginService: Get.find()));
   }
 }

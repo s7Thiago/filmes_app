@@ -1,3 +1,4 @@
+import 'package:filmes_app/application/bindings/application_bindings.dart';
 import 'package:filmes_app/modules/login/login_module.dart';
 import 'package:filmes_app/modules/splash/splash_module.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -24,6 +25,9 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return GetMaterialApp(
       title: 'Flutter Demo',
+      // bindings de inicialização, múdulo que agrupa tudo que será permanente na aplicação
+      // e que não deve ser destruído ao mudar de rota
+      initialBinding: ApplicationBindings(),
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
