@@ -3,11 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class SplashPage extends StatelessWidget {
-  // Delegando a tarefa de instanciar o controller para o Get
-  // O método put disponibiliza a instância através do Get
-  var controller = Get.put(SplashController());
-
-  SplashPage({Key? key}) : super(key: key);
+  const SplashPage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
