@@ -13,8 +13,15 @@ class LoginController extends GetxController with LoaderMixin {
   }
 
   Future<void> login() async {
-    loading.value = true;
-    await Future.delayed(const Duration(seconds: 2));
-    loading.value = false;
+    // no getx todos os Rx são callable classes
+    loading(true); // o mesmo que  loading.value = true;
+
+    //o mesmo que  await Future.delayed(const Duration(seconds: 2));
+    await 2.seconds.delay();
+
+    // no getx todos os Rx são callable classes
+    loading(false); // o mesmo que  loading.value = false;
+
+    Get.snackbar('Título da Snack', 'Teste');
   }
 }
