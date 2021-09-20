@@ -21,4 +21,7 @@ class LoginServiceImpl implements LoginService {
   // Delega a responsabilidade de fazer o login para o repository
   @override
   Future<UserCredential> login() => _loginRepository.login();
+
+  @override
+  Future<void> logout() => _loginRepository.logout();
 }

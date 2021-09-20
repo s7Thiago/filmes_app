@@ -34,7 +34,7 @@ class HomePage extends GetView<HomeController> {
         );
       }),
       body: Navigator(
-        key: Get.nestedKey(1),
+        key: Get.nestedKey(HomeController.NAVIGATOR_KEY),
         initialRoute: '/movies',
         onGenerateRoute: (settings) {
           switch (settings.name) {
