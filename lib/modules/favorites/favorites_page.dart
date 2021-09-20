@@ -7,9 +7,12 @@ class FavoritesPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Favorites Page'),
+        title: const Text('Favoritos Page'),
+        automaticallyImplyLeading: false,
       ),
-      body: Container(),
+      body: const Center(
+        child: Text('I am on Favorites Page'),
+      ),
     );
   }
 }
