@@ -1,5 +1,6 @@
 import 'package:filmes_app/application/rest_client/rest_client.dart';
 import 'package:filmes_app/models/genre_model.dart';
+import 'package:firebase_remote_config/firebase_remote_config.dart';
 
 import './genres_repository.dart';
 
@@ -14,6 +15,7 @@ class GenresRepositoryImpl implements GenresRepository {
   Future<List<GenreModel>> getGenres() async {
     final result = await _restClient.get<List<GenreModel>>(
       '/genre/movie/list',
+      query: {'api_key': RemoteConfig.instance.getString('api_token')},
       decoder: (data) {
         final resultData = data['genres'];
         if (resultData != null) {
@@ -26,7 +28,7 @@ class GenresRepositoryImpl implements GenresRepository {
     );
 
     if (result.hasError) {
-      print(result.statusText);
+      print('Erro ao buscar Genres: [${result.statusText}]');
       throw Exception('Erro durante a busca dos gêneros');
     }
 
