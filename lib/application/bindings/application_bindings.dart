@@ -52,6 +52,7 @@ class ApplicationBindings implements Bindings {
         // Capturando o repository que foi exposto para injetar no MoviesService
         moviesRepository: Get.find<MoviesRepository>(),
       ),
+      fenix: true,
     );
   }
 }

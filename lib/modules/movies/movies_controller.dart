@@ -1,16 +1,34 @@
 import 'package:filmes_app/application/ui/messages/messages_mixin.dart';
 import 'package:filmes_app/models/genre_model.dart';
+import 'package:filmes_app/models/movie_model.dart';
 import 'package:filmes_app/services/genres/genres_service.dart';
+import 'package:filmes_app/services/movies/movies_service.dart';
 import 'package:get/get.dart';
 
 class MoviesController extends GetxController with MessagesMixin {
-  // Seguindo um padrão de projeto: o repository tem o service, e o service é recebido pelo controller
+  // Seguindo um padrão de projeto: o repository tem o service, e o service é recebido pelo
+  // controller
   final GenresService _genresService;
+  final MoviesService _moviesService;
+
   final _message = Rxn<MessageModel>();
   final genres = <GenreModel>[].obs;
 
-  MoviesController({required GenresService genresService})
-      : _genresService = genresService;
+  // Listas principais cujos dados trazidos (diretamente da API através do service que acessa o
+  // repository responsável) serão observados
+  final popularMovies = <MovieModel>[].obs;
+  final topRatedMovies = <MovieModel>[].obs;
+
+  // Listas auxiliares para filtragem local (com o objetivo de reduzir o número de requisições
+  // à API)
+  final popularMoviesOriginal = <MovieModel>[];
+  final topRatedMoviesOriginal = <MovieModel>[];
+
+  MoviesController(
+      {required GenresService genresService,
+      required MoviesService moviesService})
+      : _genresService = genresService,
+        _moviesService = moviesService;
 
   //*  Fornece acesso para componentes externos a esta classe lerem a lista de categorias
   // List<GenreModel> get genres => _genres;
@@ -27,16 +45,28 @@ class MoviesController extends GetxController with MessagesMixin {
     super.onReady();
     // ! Quando a tela estiver pronta, faz a busca dos dados
     try {
-      final genres = await _genresService.getGenres();
+      // * Traz a lista de categorias da API
+      final genresData = await _genresService.getGenres();
 
       // * O assignAll do Get sobrescreve todos os dados dentro da lista (a variável de estado)
-      this.genres.assignAll(genres);
-    } catch (e) {
+      genres.assignAll(genresData);
+
+      // * Traz os filmes populares da API
+      final popularMoviesData = await _moviesService.getPopularMovies();
+      final topRatedMoviesData = await _moviesService.getTopRated();
+
+      // * Atribuindo os dados recebidos a variável de estado
+      popularMovies.assignAll(popularMoviesData);
+      topRatedMovies.assignAll(topRatedMoviesData);
+    } catch (e, s) {
+      print(e);
+      print(s);
+
       // Atribuindo os dados no objeto de erro (usando sintaxe liberada pelo Get)
       _message(
         MessageModel.error(
           title: 'Ocorreu um problema!',
-          message: 'Erro ao buscar Categorias',
+          message: 'Erro ao tentar buscar dadas da páginas',
         ),
       );
     }

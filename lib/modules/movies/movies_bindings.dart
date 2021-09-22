@@ -21,7 +21,11 @@ class MoviesBindings implements Bindings {
 
     Get.lazyPut(
       // Recuperando o service adicionado na linha acima
-      () => MoviesController(genresService: Get.find()),
+      () => MoviesController(
+        // O services foram carregados nos bindings da aplicação
+        genresService: Get.find(),
+        moviesService: Get.find(),
+      ),
     );
   }
 }
