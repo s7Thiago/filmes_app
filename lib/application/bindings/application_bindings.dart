@@ -1,4 +1,5 @@
 import 'package:filmes_app/application/auth/auth_service.dart';
+import 'package:filmes_app/application/rest_client/rest_client.dart';
 import 'package:filmes_app/repositories/login/login_repository.dart';
 import 'package:filmes_app/repositories/login/login_repository_impl.dart';
 import 'package:filmes_app/services/login/login_service.dart';
@@ -8,6 +9,8 @@ import 'package:get/get.dart';
 class ApplicationBindings implements Bindings {
   @override
   void dependencies() {
+    // Expondo o RestClient para ser acessível por toda a aplicação
+    Get.lazyPut(() => RestClient());
     Get.lazyPut<LoginRepository>(
       () => LoginRepositoryImpl(),
       // o Get não vai destruir a instância do repository quando a tela que causou a criação dela for fechada
