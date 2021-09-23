@@ -24,6 +24,8 @@ class MoviesController extends GetxController with MessagesMixin {
   var popularMoviesOriginal = <MovieModel>[];
   var topRatedMoviesOriginal = <MovieModel>[];
 
+  final selectedGenre = Rxn<GenreModel>();
+
   MoviesController(
       {required GenresService genresService,
       required MoviesService moviesService})
@@ -85,6 +87,36 @@ class MoviesController extends GetxController with MessagesMixin {
       // * Filtrando a lista de top rated pelo título
       var newTopRatedMovies = topRatedMoviesOriginal.where(
           (movie) => movie.title.toLowerCase().contains(title.toLowerCase()));
+
+      // Sobrescrevendo as respectivas listas acessíveis externamente com os dados filtrados
+      popularMovies.assignAll(newPopularMovies);
+      topRatedMovies.assignAll(newTopRatedMovies);
+    } else {
+      popularMovies.assignAll(popularMoviesOriginal);
+      topRatedMovies.assignAll(topRatedMoviesOriginal);
+    }
+  }
+
+  void filterMoviesByGenre(GenreModel? genre) {
+    var genreFilter = genre;
+
+    // Verificando se o filtro que está vindo é igual ao que está selecionado. Deste modo
+    // O filtro é desfeito e o widget vai perder o status de seleção quando o usuário clicar
+    // em cada um (prove alternação do gênero selecionado)
+    if (genreFilter?.id == selectedGenre.value?.id) {
+      // * O que fazer quando o elemento já estiver selecionado
+      genreFilter = null;
+    }
+
+    selectedGenre.value = genreFilter;
+
+    if (genreFilter != null) {
+      var newPopularMovies = popularMoviesOriginal
+          .where((movie) => movie.genres.contains(genreFilter?.id));
+
+      // * Filtrando a lista de top rated pelo título
+      var newTopRatedMovies = topRatedMoviesOriginal
+          .where((movie) => movie.genres.contains(genreFilter?.id));
 
       // Sobrescrevendo as respectivas listas acessíveis externamente com os dados filtrados
       popularMovies.assignAll(newPopularMovies);
