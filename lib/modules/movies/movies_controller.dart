@@ -21,8 +21,8 @@ class MoviesController extends GetxController with MessagesMixin {
 
   // Listas auxiliares para filtragem local (com o objetivo de reduzir o número de requisições
   // à API)
-  final popularMoviesOriginal = <MovieModel>[];
-  final topRatedMoviesOriginal = <MovieModel>[];
+  var popularMoviesOriginal = <MovieModel>[];
+  var topRatedMoviesOriginal = <MovieModel>[];
 
   MoviesController(
       {required GenresService genresService,
@@ -58,6 +58,10 @@ class MoviesController extends GetxController with MessagesMixin {
       // * Atribuindo os dados recebidos a variável de estado
       popularMovies.assignAll(popularMoviesData);
       topRatedMovies.assignAll(topRatedMoviesData);
+
+      // * Populando as listas auxiliares de filtragem
+      popularMoviesOriginal = popularMoviesData;
+      topRatedMoviesOriginal = topRatedMoviesData;
     } catch (e, s) {
       print(e);
       print(s);
@@ -69,6 +73,25 @@ class MoviesController extends GetxController with MessagesMixin {
           message: 'Erro ao tentar buscar dadas da páginas',
         ),
       );
+    }
+  }
+
+  void filterByName(String title) {
+    if (title.isNotEmpty) {
+      // * Filtrando a lista de filmes populares pelo título
+      var newPopularMovies = popularMoviesOriginal.where(
+          (movie) => movie.title.toLowerCase().contains(title.toLowerCase()));
+
+      // * Filtrando a lista de top rated pelo título
+      var newTopRatedMovies = topRatedMoviesOriginal.where(
+          (movie) => movie.title.toLowerCase().contains(title.toLowerCase()));
+
+      // Sobrescrevendo as respectivas listas acessíveis externamente com os dados filtrados
+      popularMovies.assignAll(newPopularMovies);
+      topRatedMovies.assignAll(newTopRatedMovies);
+    } else {
+      popularMovies.assignAll(popularMoviesOriginal);
+      topRatedMovies.assignAll(topRatedMoviesOriginal);
     }
   }
 }
