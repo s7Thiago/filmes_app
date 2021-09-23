@@ -1,4 +1,5 @@
 import 'package:filmes_app/application/rest_client/rest_client.dart';
+import 'package:filmes_app/models/movie_detail_model.dart';
 import 'package:filmes_app/models/movie_model.dart';
 import 'package:firebase_remote_config/firebase_remote_config.dart';
 
@@ -50,6 +51,7 @@ class MoviesRepositoryImpl implements MoviesRepository {
         'language': 'pt-BR',
         'page': '1',
       },
+      // * Converte o json recebido na requisição para um objeto MovieDetail
       decoder: (data) {
         final results = data['results'];
 
@@ -67,5 +69,30 @@ class MoviesRepositoryImpl implements MoviesRepository {
     }
 
     return result.body ?? <MovieModel>[];
+  }
+
+  @override
+  Future<MovieDetailModel?> getDetail(int id) async {
+    final result = await _restClient.get<MovieDetailModel?>(
+      '/movie/$id', //  o id do filme que terá os detalhes trazidos
+      query: {
+        'api_key': RemoteConfig.instance.getString('api_token'),
+        'language': 'pt-BR',
+        'append_to_response': 'images,credits',
+        'include_image_language': 'en,pt-br',
+      },
+      // * Converte o json recebido na requisição para um objeto MovieDetail
+      decoder: (data) {
+        // Como o objeto que queremos já está na raiz do json, nenhum tratamento é necessário
+        return MovieDetailModel.fromMap(data);
+      },
+    );
+
+    if (result.hasError) {
+      print('Erro ao buscar detalhes do filme: [${result.statusText}]');
+      throw Exception('Erro ao buscar Filmes detalhes do filme');
+    }
+
+    return result.body;
   }
 }

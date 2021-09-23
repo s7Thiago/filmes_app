@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'package:filmes_app/models/cast_model.dart';
 import 'package:filmes_app/models/genre_model.dart';
 
-class MovieDetail {
+class MovieDetailModel {
   final String title;
   final String stars;
   final List<GenreModel> genres;
@@ -14,7 +14,7 @@ class MovieDetail {
   final String originalLanguage;
   final List<CastModel> cast; // Elenco do filme
 
-  MovieDetail({
+  MovieDetailModel({
     required this.title,
     required this.stars,
     required this.genres,
@@ -40,7 +40,7 @@ class MovieDetail {
     };
   }
 
-  factory MovieDetail.fromMap(Map<String, dynamic> map) {
+  factory MovieDetailModel.fromMap(Map<String, dynamic> map) {
     var urlImagesPosters = (map['images']['posters']);
     var urlImages = urlImagesPosters
             ?.map<String>(
@@ -48,7 +48,7 @@ class MovieDetail {
             .toList() ??
         const [];
 
-    return MovieDetail(
+    return MovieDetailModel(
       title: map['title'],
       stars: map['vote_average'],
       genres: List<GenreModel>.from(
@@ -68,6 +68,6 @@ class MovieDetail {
 
   String toJson() => json.encode(toMap());
 
-  factory MovieDetail.fromJson(String source) =>
-      MovieDetail.fromMap(json.decode(source));
+  factory MovieDetailModel.fromJson(String source) =>
+      MovieDetailModel.fromMap(json.decode(source));
 }

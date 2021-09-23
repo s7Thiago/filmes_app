@@ -19,6 +19,7 @@ class GenresRepositoryImpl implements GenresRepository {
         'api_key': RemoteConfig.instance.getString('api_token'),
         'language': 'pt-br'
       },
+      // * Converte o json recebido na requisição para um objeto GenreModel
       decoder: (data) {
         final resultData = data['genres'];
         if (resultData != null) {
