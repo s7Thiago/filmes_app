@@ -1,9 +1,7 @@
 import 'package:filmes_app/models/movie_detail_model.dart';
-import 'package:filmes_app/modules/movies/movies_controller.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 
-class MovieDetailHeader extends GetView<MoviesController> {
+class MovieDetailHeader extends StatelessWidget {
   final MovieDetailModel? movie;
 
   const MovieDetailHeader({

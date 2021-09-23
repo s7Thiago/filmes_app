@@ -5,7 +5,7 @@ import 'package:filmes_app/models/genre_model.dart';
 
 class MovieDetailModel {
   final String title;
-  final String stars;
+  final double stars;
   final List<GenreModel> genres;
   final List<String> urlImages;
   final DateTime releaseDate;
@@ -50,7 +50,7 @@ class MovieDetailModel {
 
     return MovieDetailModel(
       title: map['title'],
-      stars: '${map['vote_average']}',
+      stars: map['vote_average'] ?? 0.0,
       genres: List<GenreModel>.from(
           map['genres']?.map((x) => GenreModel.fromMap(x)) ?? const []),
       urlImages: urlImages,
