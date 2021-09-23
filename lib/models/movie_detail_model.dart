@@ -50,7 +50,7 @@ class MovieDetailModel {
 
     return MovieDetailModel(
       title: map['title'],
-      stars: map['vote_average'],
+      stars: '${map['vote_average']}',
       genres: List<GenreModel>.from(
           map['genres']?.map((x) => GenreModel.fromMap(x)) ?? const []),
       urlImages: urlImages,
