@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:filmes_app/application/rest_client/rest_client.dart';
 import 'package:filmes_app/models/movie_detail_model.dart';
 import 'package:filmes_app/models/movie_model.dart';
@@ -94,5 +95,33 @@ class MoviesRepositoryImpl implements MoviesRepository {
     }
 
     return result.body;
+  }
+
+  @override
+  Future<void> addOrRemoveFavorite(String userId, MovieModel movie) async {
+    var favoriteCollection = FirebaseFirestore.instance
+        .collection('favorites')
+        .doc(userId)
+        .collection('movies');
+
+    // Verifica se o filme está marcado como favorito e adiciona à collection
+    // Se ele não é favorito, faz uma consulta para ver se existe e deleta
+    try {
+      if (movie.favorite) {
+        favoriteCollection.add(movie.toMap());
+      } else {
+        var favoriteData = await favoriteCollection
+            .where('id', isEqualTo: movie.id)
+            .limit(1)
+            .get();
+
+        favoriteData.docs.first.reference.delete();
+      }
+    } catch (e) {
+      print('Erro ao adicionar ou remover favorito: [$e]');
+      rethrow; // Sobe a exceção que foi recebida
+    }
+
+    return Future.value();
   }
 }

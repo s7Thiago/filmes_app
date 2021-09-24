@@ -6,7 +6,12 @@ import 'package:intl/intl.dart';
 class MovieCard extends StatelessWidget {
   final dateFormat = DateFormat('MM/y');
   final MovieModel movie;
-  MovieCard({Key? key, required this.movie}) : super(key: key);
+  final VoidCallback favoriteCallback;
+  MovieCard({
+    Key? key,
+    required this.movie,
+    required this.favoriteCallback,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -33,7 +38,7 @@ class MovieCard extends StatelessWidget {
                       clipBehavior:
                           Clip.antiAlias, // Melhora a aparência da curva
                       child: Image.network(
-                        movie.posterPath,
+                        'https://image.tmdb.org/t/p/w200${movie.posterPath}',
                         width: 148,
                         height: 184,
                         fit: BoxFit.cover,
@@ -71,7 +76,7 @@ class MovieCard extends StatelessWidget {
                 child: SizedBox(
                   height: 36,
                   child: IconButton(
-                    onPressed: () {},
+                    onPressed: favoriteCallback,
                     icon: const Icon(Icons.favorite),
                     color: Colors.grey,
                     iconSize: 13,

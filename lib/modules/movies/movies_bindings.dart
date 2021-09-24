@@ -25,6 +25,7 @@ class MoviesBindings implements Bindings {
         // O services foram carregados nos bindings da aplicação
         genresService: Get.find(),
         moviesService: Get.find(),
+        authService: Get.find(),
       ),
     );
   }

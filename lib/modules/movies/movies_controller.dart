@@ -1,3 +1,4 @@
+import 'package:filmes_app/application/auth/auth_service.dart';
 import 'package:filmes_app/application/ui/messages/messages_mixin.dart';
 import 'package:filmes_app/models/genre_model.dart';
 import 'package:filmes_app/models/movie_model.dart';
@@ -10,6 +11,7 @@ class MoviesController extends GetxController with MessagesMixin {
   // controller
   final GenresService _genresService;
   final MoviesService _moviesService;
+  final AuthService _authService;
 
   final _message = Rxn<MessageModel>();
   final genres = <GenreModel>[].obs;
@@ -26,11 +28,13 @@ class MoviesController extends GetxController with MessagesMixin {
 
   final selectedGenre = Rxn<GenreModel>();
 
-  MoviesController(
-      {required GenresService genresService,
-      required MoviesService moviesService})
-      : _genresService = genresService,
-        _moviesService = moviesService;
+  MoviesController({
+    required GenresService genresService,
+    required MoviesService moviesService,
+    required AuthService authService,
+  })  : _genresService = genresService,
+        _moviesService = moviesService,
+        _authService = authService;
 
   //*  Fornece acesso para componentes externos a esta classe lerem a lista de categorias
   // List<GenreModel> get genres => _genres;
@@ -53,6 +57,24 @@ class MoviesController extends GetxController with MessagesMixin {
       // * O assignAll do Get sobrescreve todos os dados dentro da lista (a variável de estado)
       genres.assignAll(genresData);
 
+      await getMovies();
+    } catch (e, s) {
+      print(e);
+      print(s);
+
+      // Atribuindo os dados no objeto de erro (usando sintaxe liberada pelo Get)
+      _message(
+        MessageModel.error(
+          title: 'Ocorreu um problema!',
+          message: 'Erro ao tentar buscar dadas da páginas',
+        ),
+      );
+    }
+  }
+
+  Future<void> getMovies() async {
+    // ! Quando a tela estiver pronta, faz a busca dos dados
+    try {
       // * Traz os filmes populares da API
       final popularMoviesData = await _moviesService.getPopularMovies();
       final topRatedMoviesData = await _moviesService.getTopRated();
@@ -124,6 +146,18 @@ class MoviesController extends GetxController with MessagesMixin {
     } else {
       popularMovies.assignAll(popularMoviesOriginal);
       topRatedMovies.assignAll(topRatedMoviesOriginal);
+    }
+  }
+
+  Future<void> favoriteMovie(MovieModel movie) async {
+    final user = _authService.user;
+
+    if (user != null) {
+      // Usando padrão prototype para alterar o estado do objeto (que por padrão é imutável)
+      //através de uma nova instância com a propriedade desejada já alterada
+      var newMovie = movie.copyWith(favorite: !movie.favorite);
+      await _moviesService.addOrRemoveFavorite(user.uid, newMovie);
+      await getMovies();
     }
   }
 }
