@@ -76,8 +76,31 @@ class MoviesController extends GetxController with MessagesMixin {
     // ! Quando a tela estiver pronta, faz a busca dos dados
     try {
       // * Traz os filmes populares da API
-      final popularMoviesData = await _moviesService.getPopularMovies();
-      final topRatedMoviesData = await _moviesService.getTopRated();
+      var popularMoviesData = await _moviesService.getPopularMovies();
+      var topRatedMoviesData = await _moviesService.getTopRated();
+
+      final favorites = await getFavorites();
+
+      // ? Percorrendo cada uma das listas e favorita, se necessário
+      popularMoviesData = popularMoviesData.map(
+        (m) {
+          if (favorites.containsKey(m.id)) {
+            return m.copyWith(favorite: true);
+          } else {
+            return m.copyWith(favorite: false);
+          }
+        },
+      ).toList();
+
+      topRatedMoviesData = topRatedMoviesData.map(
+        (m) {
+          if (favorites.containsKey(m.id)) {
+            return m.copyWith(favorite: true);
+          } else {
+            return m.copyWith(favorite: false);
+          }
+        },
+      ).toList();
 
       // * Atribuindo os dados recebidos a variável de estado
       popularMovies.assignAll(popularMoviesData);
@@ -159,5 +182,20 @@ class MoviesController extends GetxController with MessagesMixin {
       await _moviesService.addOrRemoveFavorite(user.uid, newMovie);
       await getMovies();
     }
+  }
+
+// Cria um map onde a chave de cada registro é o id do filme favoritado. Se o id de um filme estiver
+// nas chaves, significa que ele é favorito, dessa forma não é necessário varrer a lista para esse
+// propósito
+  Future<Map<int, MovieModel>> getFavorites() async {
+    var user = _authService.user;
+
+    if (user != null) {
+      final favorites = await _moviesService.getFavoriteMovies(user.uid);
+
+      return <int, MovieModel>{for (var fav in favorites) fav.id: fav};
+    }
+
+    return {};
   }
 }

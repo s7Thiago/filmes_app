@@ -1,3 +1,4 @@
+import 'package:filmes_app/application/ui/theme_extensions.dart';
 import 'package:filmes_app/models/movie_model.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -77,7 +78,11 @@ class MovieCard extends StatelessWidget {
                   height: 36,
                   child: IconButton(
                     onPressed: favoriteCallback,
-                    icon: const Icon(Icons.favorite),
+                    icon: Icon(
+                      movie.favorite ? Icons.favorite : Icons.favorite_border,
+                      color:
+                          movie.favorite ? context.themeRed : context.themeGrey,
+                    ),
                     color: Colors.grey,
                     iconSize: 13,
                   ),
