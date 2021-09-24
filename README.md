@@ -26,9 +26,9 @@ Acess [The movie DB API Docs](https://developers.themoviedb.org/3/getting-starte
 
 ## Project features preview
 
-| Login error, Login, Logout                                                      | Movies page and movies detail                                                          | Filter movies by genre or by title                                     | Managing Favorite movies                                               |
-| ------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------- | ---------------------------------------------------------------------- | ---------------------------------------------------------------------- |
-| <div style="width:300px">![](assets/images/prints/error_login_logout.gif)</div> | <div style="width:300px">![](assets/images/prints/movies_page_movie_details.gif)</div> | <div style="width:300px">![](assets/images/prints/filtering.gif)</div> | <div style="width:300px">![](assets/images/prints/managing_favorites.gif)</div> |
+| Login error, Login, Logout                                                              | Movies page and movies detail                                                                  | Filter movies by genre or by title                                            | Managing Favorite movies                                                               |
+| --------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------- | -------------------------------------------------------------------------------------- |
+| <div><img style="width:300px;" src="assets/images/prints/error_login_logout.gif"></div> | <div><img style="width:300px;" src="assets/images/prints/movies_page_movie_details.gif"></div> | <div><img style="width:300px" src="assets/images/prints/filtering.gif"></div> | <div><img style="width:300px" src="assets/images/prints/managing_favorites.gif"></div> |
 
 ##
 ## Installation and Setup Instructions
