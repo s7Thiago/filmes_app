@@ -1,4 +1,4 @@
-# Mined Field
+# Movies App
 
 A movie sugestion app made with Flutter Framework using TMDB API.
 
