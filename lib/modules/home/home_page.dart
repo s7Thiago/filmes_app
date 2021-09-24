@@ -1,3 +1,4 @@
+import 'package:filmes_app/modules/favorites/favorites_bindings.dart';
 import 'package:filmes_app/modules/favorites/favorites_page.dart';
 import 'package:filmes_app/modules/home/home_controller.dart';
 import 'package:filmes_app/modules/movies/movies_bindings.dart';
@@ -49,6 +50,7 @@ class HomePage extends GetView<HomeController> {
               return GetPageRoute(
                 settings: settings,
                 page: () => const FavoritesPage(),
+                binding: FavoritesBindings(),
               );
             default:
               return null;
