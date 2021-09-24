@@ -13,6 +13,8 @@ This project is just a personal showcase, done with de aim of  register what i h
  - [x] Get movies from TMDB API
  - [x] Firebase Firestore to save logged user favorite movies information
  - [x] Used Firebase Remote Config to store the TMDB API key and app secrets
+ - [x] Filter movies by genre
+ - [x] Filter movies by title
  - [x] State management with GetX
  - [x] Route management with Navigator 2.0
  - [x] Dependencies injection with GetX
@@ -24,9 +26,9 @@ Acess [The movie DB API Docs](https://developers.themoviedb.org/3/getting-starte
 
 ## Project features preview
 
-| Playing                                                               |
-| --------------------------------------------------------------------- |
-| <div style="">![](assets/images/prints/error_login_logout2.gif)</div> |
+| Login error, Login, Logout                                                      | Movies page and movies detail                                                          | Filter movies by genre or by title                                     | Managing Favorite movies                                               |
+| ------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------- | ---------------------------------------------------------------------- | ---------------------------------------------------------------------- |
+| <div style="width:300px">![](assets/images/prints/error_login_logout.gif)</div> | <div style="width:300px">![](assets/images/prints/movies_page_movie_details.gif)</div> | <div style="width:300px">![](assets/images/prints/filtering.gif)</div> | <div style="width:300px">![](assets/images/prints/managing_favorites.gif)</div> |
 
 ##
 ## Installation and Setup Instructions
